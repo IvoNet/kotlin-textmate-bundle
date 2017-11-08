@@ -20,7 +20,11 @@ if [ -f "./kotlin.sh" ]; then
    /bin/sh ./kotlin.sh $res
 else
 	cd "$TM_DIRECTORY"
-	JAVA8=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
+	JAVA8="$(ls /Library/Java/JavaVirtualMachines|grep jdk1.8|awk '{ print "/Library/Java/JavaVirtualMachines/" $1 "/Contents/Home"}')"
+	if [ -z "$JAVA8" ]; then
+		echo "No java 8 jdk found..."
+		exit 1
+	fi
 	if [ "${TM_FILENAME##*.}" = "kts" ]; then
 		#interpret a kts script
 		JAVA_HOME=${JAVA8} /usr/local/bin/kotlinc -script "$TM_FILENAME" $res
