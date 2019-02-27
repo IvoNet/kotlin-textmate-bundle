@@ -17,16 +17,16 @@ else
 	fi
 	if [ "${TM_FILENAME##*.}" = "kts" ]; then
 		JAVA_HOME=${JAVA8} /usr/local/bin/kotlinc -script "$TM_FILENAME"
-	else
+	fi
+	if [ "${TM_FILENAME##*.}" != "kts" ]; then
         JAVA_HOME=${JAVA8} /usr/local/bin/kotlinc "$TM_FILENAME"
         class=${TM_FILENAME%.kt}
-        class="$(tr '[:lower:]' '[:upper:]' &lt;&lt;&lt; ${class:0:1})${class:1}"
+        class="$(tr '[:lower:]' '[:upper:]' <<< ${class:0:1})${class:1}"
         class="${class}Kt"
         JAVA_HOME=${JAVA8} /usr/local/bin/kotlin "${class}"
         rm -rf META-INF "${class}".class
 	fi
 fi
-	
 </string>
 	<key>input</key>
 	<string>document</string>
